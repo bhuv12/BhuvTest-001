@@ -36,5 +36,33 @@ var discovery = new DiscoveryV1( {
 } );
 
 exports.index = function(req, res){
-  res.render('index.html', { title: 'Cloudant Boiler Plate' });
+	var discovery = new DiscoveryV1( {
+    username: "xxx",
+    password: "xxx",
+    version_date: DiscoveryV1.VERSION_DATE_2016_12_15
+} );
+
+discovery.query( {
+    environment_id: '9d72194c-bfa5-41ec-b47b-00b7a1943612',
+    collection_id: '8854ecb2-6c2b-4bfd-acca-8333a9f4b64e',
+
+    query: 'text:Bitcoin'
+    
+	}, function ( err, queryResponse )
+	{
+	    if ( err )
+	    {
+	        console.error( err );
+	        res.json( {err} );
+	    }
+	    else
+	    {
+	        let queryResult = JSON.stringify( queryResponse, null, 2 )
+	
+	        console.log( queryResult );
+	        res.json(queryResult);
+	    }
+	} );
+
+  //res.render('index.html', { title: 'Cloudant Boiler Plate' });
 };
